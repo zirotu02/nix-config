@@ -107,12 +107,26 @@
   ];
 
 services.xserver.excludePackages = with pkgs; [
-  xterm 
-  gedit 
-  epiphany 
-  evince 
-  ];
+  xterm ];
 
+environment.gnome.excludePackages = with pkgs.gnome; [
+baobab # disk usage analyzer
+epiphany # web browser
+simple-scan # document scanner
+totem # video player
+yelp # help viewer
+evince # document viewer
+geary # email client
+gnome-calculator
+gnome-contacts
+gnome-logs
+gnome-maps
+gnome-music
+gnome-screenshot
+gnome-system-monitor
+pkgs.gnome-connections
+pkgs.gnome-console
+]; 
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
