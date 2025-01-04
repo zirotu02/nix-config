@@ -14,7 +14,7 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "nixos"; # Define your hostname.
+  networking.hostName = "linuxbox"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
@@ -43,16 +43,17 @@
   };
 
   # Enable the X11 windowing system.
+  # You can disable this if you're only using the Wayland session.
   services.xserver.enable = true;
 
-  # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
+  # Enable the KDE Plasma Desktop Environment.
+  services.displayManager.sddm.enable = true;
+  services.desktopManager.plasma6.enable = true;
 
   # Configure keymap in X11
-  services.xserver = {
+  services.xserver.xkb = {
     layout = "us";
-    xkbVariant = "";
+    variant = "";
   };
 
   # Enable CUPS to print documents.
@@ -83,12 +84,13 @@
     description = "zirotu";
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
+      kdePackages.kate
     #  thunderbird
     ];
   };
 
   # Install firefox.
-  programs.firefox.enable = true;
+  #programs.firefox.enable = true;
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
@@ -100,33 +102,14 @@
   #  wget
   vscode
   google-chrome
-  gnome3.gnome-tweaks
-  orchis-theme
-  papirus-icon-theme
   neofetch
+  stremio
+  git
+
   ];
 
-services.xserver.excludePackages = with pkgs; [
+  services.xserver.excludePackages = with pkgs; [
   xterm ];
-
-environment.gnome.excludePackages = with pkgs.gnome; [
-baobab # disk usage analyzer
-epiphany # web browser
-simple-scan # document scanner
-totem # video player
-yelp # help viewer
-evince # document viewer
-geary # email client
-gnome-calculator
-gnome-contacts
-gnome-logs
-gnome-maps
-gnome-music
-gnome-screenshot
-gnome-system-monitor
-pkgs.gnome-connections
-pkgs.gnome-console
-]; 
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -153,6 +136,8 @@ pkgs.gnome-console
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "24.05"; # Did you read the comment?
+  system.stateVersion = "24.11"; # Did you read the comment?
+
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
 }
