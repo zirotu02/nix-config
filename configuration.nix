@@ -126,6 +126,7 @@
   git
   pkgs.gnome-terminal
   stremio
+  android-tools
   ];
 
 services.xserver.excludePackages = with pkgs; [
