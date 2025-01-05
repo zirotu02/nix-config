@@ -43,12 +43,11 @@
   };
 
   # Enable the X11 windowing system.
-  # You can disable this if you're only using the Wayland session.
   services.xserver.enable = true;
 
-  # Enable the KDE Plasma Desktop Environment.
-  services.displayManager.sddm.enable = true;
-  services.desktopManager.plasma6.enable = true;
+  # Enable the GNOME Desktop Environment.
+  services.xserver.displayManager.gdm.enable = true;
+  services.xserver.desktopManager.gnome.enable = true;
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -84,7 +83,6 @@
     description = "zirotu";
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
-      kdePackages.kate
     #  thunderbird
     ];
   };
@@ -94,6 +92,25 @@
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
+  
+  environment.gnome.excludePackages = with pkgs.gnome; [
+  pkgs.baobab # disk usage analyzer
+  pkgs.epiphany # web browser
+  pkgs.simple-scan # document scanner
+  pkgs.totem # video player
+  pkgs.yelp # help viewer
+  pkgs.evince # document viewer
+  pkgs.geary # email client
+  pkgs.gnome-calculator
+  pkgs.gnome-contacts
+  pkgs.gnome-logs
+  pkgs.gnome-maps
+  pkgs.gnome-music
+  pkgs.gnome-screenshot
+  pkgs.gnome-system-monitor
+  pkgs.gnome-connections
+  pkgs.gnome-console
+  ]; 
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -102,13 +119,16 @@
   #  wget
   vscode
   google-chrome
+  pkgs.gnome-tweaks
+  orchis-theme
+  papirus-icon-theme
   neofetch
-  stremio
   git
-
+  pkgs.gnome-terminal
+  stremio
   ];
 
-  services.xserver.excludePackages = with pkgs; [
+services.xserver.excludePackages = with pkgs; [
   xterm ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -137,7 +157,5 @@
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "24.11"; # Did you read the comment?
-
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
 }
